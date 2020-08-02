@@ -7,13 +7,13 @@ public class Question {
     private static int questionId;
     private int id= questionId++;
     private String questionDescription;
-    private List<String> possibleAnswers;
-    private Answer answer;
+    private List<Answer> possibleAnswers;
+    private String answer;
 
     public Question() {
     }
 
-    public Question(String questionDescription, List<String> possibleAnswers, Answer answer) {
+    public Question(String questionDescription, List<Answer> possibleAnswers, String answer) {
         this.questionDescription = questionDescription;
         this.possibleAnswers = possibleAnswers;
         this.answer = answer;
@@ -31,27 +31,19 @@ public class Question {
         this.questionDescription = questionDescription;
     }
 
-    public List<String> getPossibleAnswers() {
+    public List<Answer> getPossibleAnswers() {
         return possibleAnswers;
     }
 
-    public void setPossibleAnswers(List<String> possibleAnswers) {
+    public void setPossibleAnswers(List<Answer> possibleAnswers) {
         this.possibleAnswers = possibleAnswers;
     }
 
-    public Answer getAnswer() {
+    public String getAnswer() {
         return answer;
     }
 
-    public void setAnswer(Answer answer) {
+    public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "questionDescription='" + questionDescription + '\'' +
-                ", possibleAnswers=" + possibleAnswers +
-                '}';
     }
 }
