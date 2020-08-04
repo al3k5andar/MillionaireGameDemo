@@ -2,6 +2,7 @@ package com.am.demo.actions;
 
 import com.am.demo.domain.Answer;
 import com.am.demo.domain.Question;
+import com.am.demo.entity.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -47,36 +48,51 @@ public class Action
         return questionMap;
     }
 
-    public static void playGame(Map<Integer,Question> questionMap, Scanner scanner){
+    public static void playGame(Map<Integer,Question> questionMap, Scanner scanner, Player player){
         Random random= new Random();
         int mapCapacity= questionMap.size();
         int answerNumber;
         boolean continueFlag= false;
+        int playerScore= 100;
 
         while(!continueFlag){
             int randomQuestion= random.nextInt(mapCapacity);
-            if(!questionMap.containsKey(randomQuestion)) {
-                continue;
-            }
-            Question question= questionMap.get(randomQuestion);
-            System.out.println("Question: \n"+ question.getQuestionDescription() + "\n");
-            for (int i = 0; i < question.getPossibleAnswers().size(); i++) {
-                System.out.println((i+1) + " " + question.getPossibleAnswers().get(i).getPossibleQuestionAnswer());
-            }
-            System.out.println("\nEnter answer number hire and hit Enter: ");
-            answerNumber= scanner.nextInt();
-            if(!isCorrect(answerNumber,question)){
-                continueFlag= true;
-                System.out.println("Game Over");
+            if(questionMap.isEmpty()) {
+                continueFlag = true;
+                System.out.println("!!! Congratulate "+ player.getName() +" you are a new Millionaire !!!");
             }
             else
             {
-                questionMap.remove(question.getId());
-                if(questionMap.isEmpty()) {
-                    continueFlag = true;
-                    System.out.println("!!! Congratulate you are a new Millionaire !!!");
+                if(!questionMap.containsKey(randomQuestion)) {
+                    continue;
+                }
+                Question question= questionMap.get(randomQuestion);
+                System.out.println("Question: \n"+ question.getQuestionDescription() + "\n");
+                for (int i = 0; i < question.getPossibleAnswers().size(); i++) {
+                    System.out.println((i+1) + " " + question.getPossibleAnswers().get(i).getPossibleQuestionAnswer());
+                }
+                System.out.println("\nEnter answer number hire and hit Enter: ");
+                answerNumber= scanner.nextInt();
+                if(!isCorrect(answerNumber,question)){
+                    continueFlag= true;
+                    System.out.println("Game Over");
+                }
+                else
+                {
+                    player.setScore(playerScore);
+                    playerScore *= 2;
+                    questionMap.remove(question.getId());
+                    System.out.println(player.getName() + " you won "+ player.getScore() + " points");
+                    System.out.println("If you want to continue pres 'Y' or 'Q' if you want your cash and quit the game.");
+                    scanner.nextLine();
+                    String playerChoose= scanner.nextLine();
+                    if(playerChoose.equalsIgnoreCase("q")) {
+                        System.out.println("Thank you for playing... You won: "+ player.getScore());
+                        continueFlag= true;
+                    }
                 }
             }
+
 
         }
     }

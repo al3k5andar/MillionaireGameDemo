@@ -2,6 +2,7 @@ package com.am.demo;
 
 import com.am.demo.actions.Action;
 import com.am.demo.domain.Question;
+import com.am.demo.entity.Player;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -21,6 +22,29 @@ public class Main {
 //                System.out.println(answer.getPossibleQuestionAnswer());
 //        }
 
-        Action.playGame(questionMap, scanner);
+//        Action.playGame(questionMap, scanner);
+
+        System.out.println("Welcome to Millionaire.....");
+
+        System.out.println("1. Play Game");
+        System.out.println("2. Quit");
+        System.out.println("\nChoose Action: ");
+
+        int userChoose= scanner.nextInt();
+
+        switch (userChoose){
+            case 1:
+                System.out.println("Enter your name: ");
+                scanner.nextLine();
+                String userName= scanner.nextLine();
+                Player player= new Player(userName);
+                Action.playGame(questionMap,scanner,player);
+                break;
+            case 2:
+                System.out.println("Game Quit");
+                break;
+            default:
+                System.exit(0);
+        }
     }
 }
