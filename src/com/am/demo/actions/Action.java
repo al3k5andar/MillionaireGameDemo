@@ -124,6 +124,9 @@ public class Action
     }
 
     public static void showAllPlayersScore(List<Player> playerList){
+        Comparator<Player> comparator= (p1, p2) -> p1.getScore() - p2.getScore();
+
+        playerList.sort(comparator);
         for(Player player: playerList){
             System.out.println("Player: "+ player.getName()+ ".........."+ player.getScore());
         }
