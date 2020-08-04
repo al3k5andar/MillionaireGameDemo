@@ -4,9 +4,7 @@ import com.am.demo.domain.Answer;
 import com.am.demo.domain.Question;
 import com.am.demo.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Action
@@ -59,6 +57,7 @@ public class Action
             int randomQuestion= random.nextInt(mapCapacity);
             if(questionMap.isEmpty()) {
                 continueFlag = true;
+                savePlayerScore(player);
                 System.out.println("!!! Congratulate "+ player.getName() +" you are a new Millionaire !!!");
             }
             else
@@ -74,8 +73,10 @@ public class Action
                 System.out.println("\nEnter answer number hire and hit Enter: ");
                 answerNumber= scanner.nextInt();
                 if(!isCorrect(answerNumber,question)){
+                    player.setScore(0);
                     continueFlag= true;
                     System.out.println("Game Over");
+                    savePlayerScore(player);
                 }
                 else
                 {
@@ -89,6 +90,7 @@ public class Action
                     if(playerChoose.equalsIgnoreCase("q")) {
                         System.out.println("Thank you for playing... You won: "+ player.getScore());
                         continueFlag= true;
+                        savePlayerScore(player);
                     }
                 }
             }
@@ -105,5 +107,41 @@ public class Action
         }
 
         return (userAnswer != null) && userAnswer.equals(question.getAnswer());
+    }
+
+    private static void savePlayerScore(Player player){
+        try(BufferedWriter writer= new BufferedWriter(new FileWriter("stats.txt", true))){
+            StringBuilder builder= new StringBuilder();
+            builder.append(player.getName());
+            builder.append(",");
+            builder.append(player.getScore());
+            builder.append("\n");
+            writer.write(builder.toString());
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void showAllPlayersScore(List<Player> playerList){
+        for(Player player: playerList){
+            System.out.println("Player: "+ player.getName()+ ".........."+ player.getScore());
+        }
+        System.out.println();
+    }
+
+    public static List<Player> getPlayersScore(){
+        List<Player> playerList= new ArrayList<>();
+        try(BufferedReader reader= new BufferedReader(new FileReader("stats.txt"))){
+            String data;
+            while((data= reader.readLine())!= null){
+                String[] dataArray= data.split(",");
+                playerList.add(new Player(dataArray[0], Integer.parseInt(dataArray[1])));
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return playerList;
     }
 }

@@ -16,6 +16,11 @@ public class Player
         return name;
     }
 
+    public Player(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

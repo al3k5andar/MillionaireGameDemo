@@ -26,21 +26,25 @@ public class Main {
 
         System.out.println("Welcome to Millionaire.....");
 
-        System.out.println("1. Play Game");
-        System.out.println("2. Quit");
+        System.out.println("1. Players Score");
+        System.out.println("2. Play Game");
+        System.out.println("3. Quit");
         System.out.println("\nChoose Action: ");
 
         int userChoose= scanner.nextInt();
 
         switch (userChoose){
             case 1:
+                Action.showAllPlayersScore(Action.getPlayersScore());
+                break;
+            case 2:
                 System.out.println("Enter your name: ");
                 scanner.nextLine();
                 String userName= scanner.nextLine();
                 Player player= new Player(userName);
                 Action.playGame(questionMap,scanner,player);
                 break;
-            case 2:
+            case 3:
                 System.out.println("Game Quit");
                 break;
             default:
