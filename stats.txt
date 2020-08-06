@@ -1,3 +1,0 @@
-Aleksandar,0
-Masa,800
-Mika,100

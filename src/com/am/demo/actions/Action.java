@@ -4,7 +4,9 @@ import com.am.demo.domain.Answer;
 import com.am.demo.domain.Question;
 import com.am.demo.entity.Player;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Action
@@ -46,18 +48,17 @@ public class Action
         return questionMap;
     }
 
-    public static void playGame(Map<Integer,Question> questionMap, Scanner scanner, Player player){
+    public static boolean playGame(Map<Integer,Question> questionMap, Scanner scanner, Player player){
         Random random= new Random();
         int mapCapacity= questionMap.size();
         int answerNumber;
-        boolean continueFlag= false;
+        boolean isGameOver= false;
         int playerScore= 100;
 
-        while(!continueFlag){
+        while(!isGameOver){
             int randomQuestion= random.nextInt(mapCapacity);
             if(questionMap.isEmpty()) {
-                continueFlag = true;
-                savePlayerScore(player);
+                isGameOver = true;
                 System.out.println("!!! Congratulate "+ player.getName() +" you are a new Millionaire !!!");
             }
             else
@@ -74,9 +75,8 @@ public class Action
                 answerNumber= scanner.nextInt();
                 if(!isCorrect(answerNumber,question)){
                     player.setScore(0);
-                    continueFlag= true;
+                    isGameOver= true;
                     System.out.println("Game Over");
-                    savePlayerScore(player);
                 }
                 else
                 {
@@ -89,14 +89,12 @@ public class Action
                     String playerChoose= scanner.nextLine();
                     if(playerChoose.equalsIgnoreCase("q")) {
                         System.out.println("Thank you for playing... You won: "+ player.getScore());
-                        continueFlag= true;
-                        savePlayerScore(player);
+                        isGameOver= true;
                     }
                 }
             }
-
-
         }
+        return true;
     }
     private static boolean isCorrect(int answerNumber, Question question){
         List<Answer> answers= question.getPossibleAnswers();
@@ -107,44 +105,5 @@ public class Action
         }
 
         return (userAnswer != null) && userAnswer.equals(question.getAnswer());
-    }
-
-    private static void savePlayerScore(Player player){
-        try(BufferedWriter writer= new BufferedWriter(new FileWriter("stats.txt", true))){
-            StringBuilder builder= new StringBuilder();
-            builder.append(player.getName());
-            builder.append(",");
-            builder.append(player.getScore());
-            builder.append("\n");
-            writer.write(builder.toString());
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public static void showAllPlayersScore(List<Player> playerList){
-        Comparator<Player> comparator= (p1, p2) -> p1.getScore() - p2.getScore();
-
-        playerList.sort(comparator);
-        for(Player player: playerList){
-            System.out.println("Player: "+ player.getName()+ ".........."+ player.getScore());
-        }
-        System.out.println();
-    }
-
-    public static List<Player> getPlayersScore(){
-        List<Player> playerList= new ArrayList<>();
-        try(BufferedReader reader= new BufferedReader(new FileReader("stats.txt"))){
-            String data;
-            while((data= reader.readLine())!= null){
-                String[] dataArray= data.split(",");
-                playerList.add(new Player(dataArray[0], Integer.parseInt(dataArray[1])));
-            }
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return playerList;
     }
 }
