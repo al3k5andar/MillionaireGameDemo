@@ -51,7 +51,7 @@ public class Action
     public static boolean playGame(Map<Integer,Question> questionMap, Scanner scanner, Player player){
         Random random= new Random();
         int mapCapacity= questionMap.size();
-        int answerNumber;
+        String answerNumber;
         boolean isGameOver= false;
         int playerScore= 100;
 
@@ -72,35 +72,37 @@ public class Action
                     System.out.println((i+1) + " " + question.getPossibleAnswers().get(i).getPossibleQuestionAnswer());
                 }
                 System.out.println("\nEnter answer number hire and hit Enter: ");
-                answerNumber= scanner.nextInt();
+
+                answerNumber= scanner.nextLine();
+
                 if(!isCorrect(answerNumber,question)){
                     player.setScore(0);
                     isGameOver= true;
                     System.out.println("Game Over");
                 }
-                else
-                {
+                else {
                     player.setScore(playerScore);
                     playerScore *= 2;
                     questionMap.remove(question.getId());
-                    System.out.println(player.getName() + " you won "+ player.getScore() + " points");
+                    System.out.println(player.getName() + " you won " + player.getScore() + " points");
                     System.out.println("If you want to continue pres 'Y' or 'Q' if you want your cash and quit the game.");
                     scanner.nextLine();
-                    String playerChoose= scanner.nextLine();
-                    if(playerChoose.equalsIgnoreCase("q")) {
-                        System.out.println("Thank you for playing... You won: "+ player.getScore());
-                        isGameOver= true;
+                    String playerChoose = scanner.nextLine();
+                    if (playerChoose.equalsIgnoreCase("q")) {
+                        System.out.println("Thank you for playing... You won: " + player.getScore());
+                        isGameOver = true;
                     }
                 }
+
             }
         }
         return true;
     }
-    private static boolean isCorrect(int answerNumber, Question question){
+    private static boolean isCorrect(String answerNumber, Question question){
         List<Answer> answers= question.getPossibleAnswers();
         String userAnswer= null;
         for (Answer answer: answers){
-            if(answer.getId()== answerNumber)
+            if(String.valueOf(answer.getId()).equals(answerNumber))
                 userAnswer= answer.getPossibleQuestionAnswer();
         }
 
