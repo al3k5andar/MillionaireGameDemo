@@ -77,9 +77,7 @@ public class Action
         {
             int randomInt= random.nextInt(mapSize);
             if(!autoSelectedQuestions.containsKey(randomInt)) {
-                System.out.println("Number: "+ randomInt);
-                autoSelectedQuestions.put(randomInt, mainMap.get(randomInt));
-                counter++;
+                autoSelectedQuestions.put(counter++, mainMap.get(randomInt));
             }
         }
         return autoSelectedQuestions;
