@@ -6,3 +6,12 @@
 5->Dobrica Cosic->Dositelj Objadovic->Mihailo Lalic->Milos Crnjanski
 6->Drina->Sava->Sana->Lim
 7->Platoon->Aristotle->Socrates->Diogenes
+8->2012->2013->2014->2015
+9->Football player->Writer->Doctor->Mathematician
+10->David Thouless->Oliver Hart->Bob Dilan->Bernard Lucas Feringa
+11->Serbia->Denmark->Austria->Switzerland
+12->NATO->JNA->CIA->UCK
+13->Russia->France->Spain->Italy
+14->France->Russia->Denmark->Germany
+15->Water->Soda->Manganese->Kitchen salt
+16->Moll->Candela->Ampere->Om

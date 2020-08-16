@@ -6,14 +6,14 @@ public class UserAnswer
     private boolean flag= false;
     private volatile boolean answerFlag;
 
-    public synchronized void writeAnswer(String answer){
+    public synchronized void writeAnswer(int answer){
         while (flag){
             try{
                 wait();
             }
             catch (InterruptedException e){}
         }
-        this.answerString = answer;
+        this.answerString = String.valueOf(answer);
         answerFlag= true;
         flag= true;
         notifyAll();
@@ -29,10 +29,6 @@ public class UserAnswer
         answerFlag= false;
         flag= false;
         notifyAll();
-        return answerString;
-    }
-
-    public String getAnswerString() {
         return answerString;
     }
 

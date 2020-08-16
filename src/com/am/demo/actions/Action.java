@@ -2,7 +2,6 @@ package com.am.demo.actions;
 
 import com.am.demo.domain.Answer;
 import com.am.demo.domain.Question;
-import com.am.demo.entity.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -48,64 +47,42 @@ public class Action
         return questionMap;
     }
 
-    public static boolean playGame(Map<Integer,Question> questionMap, Scanner scanner, Player player){
+    public static String userInputChecker(Scanner scanner, String[] possibleUserInputs, NotificationEnum notificationEnum){
+        String userInput;
+        List<String> possibleUserInputList= new ArrayList<>(Arrays.asList(possibleUserInputs));
+        do {
+            System.out.println(notificationManager(notificationEnum));
+            userInput = scanner.nextLine();
+        } while (!possibleUserInputList.contains(userInput.toLowerCase()));
+
+        return userInput;
+    }
+
+    public static String notificationManager(NotificationEnum notificationEnum){
+        switch (notificationEnum){
+            case START_QUIT:
+                return "\nFor New Game type 'Yes', for 'Quit' type 'No'\n";
+            case MONEY_CONTINUE:
+                return "\nFor continue type 'Next', if you want your money type 'Money'\n";
+        }
+        return null;
+    }
+    public static Map<Integer, Question> getSelectedQuestions(Map<Integer, Question> mainMap){
+        Map<Integer, Question> autoSelectedQuestions= new HashMap<>();
         Random random= new Random();
-        int mapCapacity= questionMap.size();
-        String answerNumber;
-        boolean isGameOver= false;
-        int playerScore= 100;
+        int mapSize= mainMap.size();
+        int counter= 0;
 
-        while(!isGameOver){
-            int randomQuestion= random.nextInt(mapCapacity);
-            if(questionMap.isEmpty()) {
-                isGameOver = true;
-                System.out.println("!!! Congratulate "+ player.getName() +" you are a new Millionaire !!!");
-            }
-            else
-            {
-                if(!questionMap.containsKey(randomQuestion)) {
-                    continue;
-                }
-                Question question= questionMap.get(randomQuestion);
-                System.out.println("Question: \n"+ question.getQuestionDescription() + "\n");
-                for (int i = 0; i < question.getPossibleAnswers().size(); i++) {
-                    System.out.println((i+1) + " " + question.getPossibleAnswers().get(i).getPossibleQuestionAnswer());
-                }
-                System.out.println("\nEnter answer number hire and hit Enter: ");
-
-                answerNumber= scanner.nextLine();
-
-                if(!isCorrect(answerNumber,question)){
-                    player.setScore(0);
-                    isGameOver= true;
-                    System.out.println("Game Over");
-                }
-                else {
-                    player.setScore(playerScore);
-                    playerScore *= 2;
-                    questionMap.remove(question.getId());
-                    System.out.println(player.getName() + " you won " + player.getScore() + " points");
-                    System.out.println("If you want to continue pres 'Y' or 'Q' if you want your cash and quit the game.");
-                    scanner.nextLine();
-                    String playerChoose = scanner.nextLine();
-                    if (playerChoose.equalsIgnoreCase("q")) {
-                        System.out.println("Thank you for playing... You won: " + player.getScore());
-                        isGameOver = true;
-                    }
-                }
-
+        while(counter< 15)
+        {
+            int randomInt= random.nextInt(mapSize);
+            if(!autoSelectedQuestions.containsKey(randomInt)) {
+                System.out.println("Number: "+ randomInt);
+                autoSelectedQuestions.put(randomInt, mainMap.get(randomInt));
+                counter++;
             }
         }
-        return true;
+        return autoSelectedQuestions;
     }
-    private static boolean isCorrect(String answerNumber, Question question){
-        List<Answer> answers= question.getPossibleAnswers();
-        String userAnswer= null;
-        for (Answer answer: answers){
-            if(String.valueOf(answer.getId()).equals(answerNumber))
-                userAnswer= answer.getPossibleQuestionAnswer();
-        }
 
-        return (userAnswer != null) && userAnswer.equals(question.getAnswer());
-    }
 }

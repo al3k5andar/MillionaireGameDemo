@@ -6,3 +6,12 @@
 5->Who is wrote the Seobe novel?->Milos Crnjanski
 6->What river are natural border between Serbia and Bosnia?->Drina
 7->Who is philosopher that lived in a barrel?->Diogenes
+8->In which year was released Playstation 4?->2013
+9->Who was Laplace?->Mathematician
+10->Who got Nobel price for writing?->Bob Dilan
+11->The Eurovision Show in 2015 was held in?->Austria
+12->North Atlantic alliance had abbreviation?->NATO
+13->In which country was held World Championship in football in 2018 ?->Russia
+14->Who was the winner of World Championship in football in 2018?->France
+15->What is meaning of chemical mark NaCI?->Kitchen salt
+16->Elementary unit for light strongness is?->Candela
